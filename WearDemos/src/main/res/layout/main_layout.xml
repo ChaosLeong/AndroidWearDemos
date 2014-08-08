@@ -11,43 +11,61 @@
         android:orientation="vertical">
 
         <Button
-            android:text="startBoxInset"
+            android:text="BoxInset"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="startBoxInsetActivity"/>
 
         <Button
-            android:text="startCardScrollView"
+            android:text="CardFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="startCardFragmentActivity"/>
+
+        <Button
+            android:text="CircleImageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="startCircleImageViewActivity"/>
+
+        <Button
+            android:text="ConfirmationActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="startConfirmationActivityDemoActivity"/>
+
+        <Button
+            android:text="CrossfadeDrawable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="startCrossfadeDrawableActivity"/>
+
+        <Button
+            android:text="CardScrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="startCardScrollViewActivity"/>
 
         <Button
-            android:text="startDelayedConfirmation"
+            android:text="DelayedConfirmation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="startDelayedConfirmationActivity"/>
 
         <Button
-            android:text="startDemoActivity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="startDemoActivity"/>
-
-        <Button
-            android:text="startDismissOverlay"
+            android:text="DismissOverlay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="startDismissOverlayActivity"/>
 
         <Button
-            android:text="startGridViewPager"
+            android:text="GridViewPager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="startGridViewPagerActivity"/>
 
         <Button
-            android:text="startWearableListView"
+            android:text="WearableListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="startWearableListViewActivity"/>

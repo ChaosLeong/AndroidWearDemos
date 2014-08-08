@@ -9,15 +9,15 @@ import android.view.View;
 /**
  * @author Chaos
  */
-public class DemoActivity extends Activity {
+public class ConfirmationActivityDemoActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.demo_layout);
+        setContentView(R.layout.confirmation_activity_demo_layout);
     }
 
     public void showDismissActivity(View view) {
-        startActivity(new Intent(this,DismissOverlayActivity.class));
+        startActivity(new Intent(this,DismissOverlayViewActivity.class));
         startConfirmationActivity(ConfirmationActivity.FAILURE_ANIMATION,
                                   getString(R.string.delete_unsuccessful));
     }

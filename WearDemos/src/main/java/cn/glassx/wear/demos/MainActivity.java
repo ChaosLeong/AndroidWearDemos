@@ -27,12 +27,12 @@ public class MainActivity extends Activity {
         startActivity(DelayedConfirmationActivity.class);
     }
 
-    public void startDemoActivity(View v){
-        startActivity(DemoActivity.class);
+    public void startConfirmationActivityDemoActivity(View v){
+        startActivity(ConfirmationActivityDemoActivity.class);
     }
 
     public void startDismissOverlayActivity(View v){
-        startActivity(DismissOverlayActivity.class);
+        startActivity(DismissOverlayViewActivity.class);
     }
 
     public void startGridViewPagerActivity(View v){
@@ -41,6 +41,18 @@ public class MainActivity extends Activity {
 
     public void startWearableListViewActivity(View v){
         startActivity(WearableListViewActivity.class);
+    }
+
+    public void startCircleImageViewActivity(View v){
+        startActivity(CircledImageViewActivity.class);
+    }
+
+    public void startCrossfadeDrawableActivity(View v){
+        startActivity(CrossfadeDrawableActivity.class);
+    }
+
+    public void startCardFragmentActivity(View v){
+        startActivity(CardFragmentActivity.class);
     }
 
     private void startActivity(Class<?> c) {

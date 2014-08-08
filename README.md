@@ -7,6 +7,7 @@ Android Wear Demos
 1.  CardScrollView不能滚动问题
 2.  BoxInsetLayout由于手上没有圆形的Android Wear，测试不了
 3.  未整理Demo，由于为了赶时间，代码很乱
+4.  WearableListView.Item、SimpleAnimatorListener用法未知
 
 ## 依赖
     - Oracle JDK 8
@@ -19,14 +20,11 @@ Android Wear Demos
     ————WearDemos
         |项目
         |
-        |————Applications
+        |————ApplicationDemos
         |运行于手机，手机版本最低要求4.3，主要为与Android Wear交互示例
         |
-        |————LayoutDemos
-        |运行于Android Wear，主要为support.werable包的控件以及api使用示例
-        |
-        |————WearableDemos
-        |运行于android Wear，主要为与Android 手机交互示例
+        |————WearDemos
+        |运行于android Wear，主要为Android Wear与Android 手机交互以及support.werable包的控件使用示例
         
 ## 唠叨
 部分api使用方法官方samples有示例，暂不列出

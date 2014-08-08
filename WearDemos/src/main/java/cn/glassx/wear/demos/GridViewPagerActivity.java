@@ -19,7 +19,7 @@ public class GridViewPagerActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.grid_pager_layout);
+        setContentView(R.layout.grid_view_pager_layout);
         gridViewPager = (GridViewPager) findViewById(R.id.grid_view_pager);
         DemoGridPagerAdapter adapter = new DemoGridPagerAdapter();
         gridViewPager.setAdapter(adapter);
@@ -86,7 +86,7 @@ public class GridViewPagerActivity extends Activity {
 
         @Override
         protected Object instantiateItem(ViewGroup viewGroup, int i, int i2) {
-            View rootView = getLayoutInflater().inflate(R.layout.grid_pager_item, null);
+            View rootView = getLayoutInflater().inflate(R.layout.grid_view_pager_item, null);
             TextView title = (TextView) rootView.findViewById(R.id.title);
             TextView content = (TextView) rootView.findViewById(R.id.content);
             title.setText(PAGES[i][i2].titleRes);

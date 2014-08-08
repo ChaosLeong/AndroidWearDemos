@@ -10,14 +10,14 @@ import android.view.MotionEvent;
 /**
  * @author Chaos
  */
-public class DismissOverlayActivity extends Activity {
+public class DismissOverlayViewActivity extends Activity {
     private GestureDetectorCompat mGestureDetector;
     private DismissOverlayView    mDismissOverlayView;
 
     @Override
     public void onCreate(Bundle b) {
         super.onCreate(b);
-        setContentView(R.layout.dismiss_overlay_view);
+        setContentView(R.layout.dismiss_overlay_view_layout);
         mDismissOverlayView = (DismissOverlayView) findViewById(R.id.dismiss_overlay);
         mDismissOverlayView.setIntroText(R.string.intro_text);
         mDismissOverlayView.showIntroIfNecessary();

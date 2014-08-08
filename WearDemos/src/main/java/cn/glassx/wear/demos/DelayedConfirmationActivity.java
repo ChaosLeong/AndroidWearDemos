@@ -16,7 +16,7 @@ public class DelayedConfirmationActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.delayed_confirmation);
+        setContentView(R.layout.delayed_confirmation_layout);
         delayedConfirmationView = (DelayedConfirmationView) findViewById(R.id.delayed_confirmation);
 
         delayedConfirmationView.setTotalTimeMs(NUM_SECONDS * 1000);
