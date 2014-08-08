@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.wearable.view.CardScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_scroll_view"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.wearable.view.CardFrame
+        android:id="@+id/card_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TestTextView\nTestTextView\nTestTextView\nTestTextView\nTestTextView\nTestTextView\nTestTextView\nTestTextView\nTestTextView\nTestTextView\nTestTextView\nTestTextView\nTestTextView\nTestTextView\nTestTextView\nTestTextView"/>
+    </android.support.wearable.view.CardFrame>
+</android.support.wearable.view.CardScrollView>

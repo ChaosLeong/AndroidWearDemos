@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.wearable.view.BoxInsetLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/box_inset_layout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:text="top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_box="top"/>
+
+    <Button
+        android:text="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_box="bottom"/>
+
+    <Button
+        android:text="left"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_box="left"/>
+
+    <Button
+        android:text="right"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_box="right"/>
+
+    <Button
+        android:text="all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_box="all"/>
+
+    <android.support.wearable.view.CircledImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/circle_iv_res"
+        app:circle_color="@color/green"
+        app:circle_radius="50dp"
+        app:circle_radius_pressed="50dp"/>
+
+
+</android.support.wearable.view.BoxInsetLayout>
