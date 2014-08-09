@@ -17,7 +17,7 @@ public class DismissOverlayViewActivity extends Activity {
     @Override
     public void onCreate(Bundle b) {
         super.onCreate(b);
-        setContentView(R.layout.dismiss_overlay_view_layout);
+        setContentView(R.layout.activity_dismiss_overlay_view);
         mDismissOverlayView = (DismissOverlayView) findViewById(R.id.dismiss_overlay);
         mDismissOverlayView.setIntroText(R.string.intro_text);
         mDismissOverlayView.showIntroIfNecessary();

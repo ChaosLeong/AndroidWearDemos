@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">AndroidWearDemos</string>
+    <string name="wear_only">Watch Only Notification</string>
+    <string name="phone_only">Phone Only Notification</string>
+    <string name="different_notifications">Different Notifications</string>
+    <string name="phone_both">Phone Notification</string>
+    <string name="watch_both">Watch Notification</string>
 </resources>

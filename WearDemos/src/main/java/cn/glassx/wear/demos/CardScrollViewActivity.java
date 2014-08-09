@@ -15,7 +15,7 @@ public class CardScrollViewActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.card_scroll_view_layout);
+        setContentView(R.layout.activity_card_scroll_view);
         cardScrollView = (CardScrollView) findViewById(R.id.card_scroll_view);
         //设定拓展方向
         cardScrollView.setExpansionDirection(CardFrame.EXPAND_UP);

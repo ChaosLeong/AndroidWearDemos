@@ -1,1 +1,1 @@
-include ':WearDemos', ':ApplicationDemos'
+include ':WearDemos', ':ApplicationDemos', ':Common'

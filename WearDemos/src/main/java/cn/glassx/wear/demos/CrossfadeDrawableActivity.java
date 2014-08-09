@@ -12,7 +12,7 @@ public class CrossfadeDrawableActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.crossfade_drawable_layout);
+        setContentView(R.layout.activity_crossfade_drawable);
         ImageView imageView=(ImageView)findViewById(R.id.image);
         CrossfadeDrawable drawable=new CrossfadeDrawable();
         drawable.setBase(getResources().getDrawable(R.drawable.ic_launcher));

@@ -14,7 +14,7 @@ public class BoxInsetActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.box_inset_layout);
+        setContentView(R.layout.activity_box_inset);
         boxInsetLayout = (BoxInsetLayout) findViewById(R.id.box_inset_layout);
     }
 }

@@ -19,7 +19,7 @@ public class WearableListViewActivity extends Activity implements WearableListVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.wearable_list_view_layout);
+        setContentView(R.layout.activity_wearable_list_view);
         wearableListView = (WearableListView) findViewById(R.id.wearable_listview);
         wearableListView.setAdapter(new DemoAdapter());
         wearableListView.setClickListener(this);
@@ -38,7 +38,7 @@ public class WearableListViewActivity extends Activity implements WearableListVi
     private class DemoAdapter extends WearableListView.Adapter {
         @Override
         public WearableListView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-            return new ViewHolder(getLayoutInflater().inflate(R.layout.wearable_list_item, null));
+            return new ViewHolder(getLayoutInflater().inflate(R.layout.item_wearable_list, null));
         }
 
         @Override

@@ -19,7 +19,7 @@ public class CardFragmentActivity extends Activity {
 
         //原生的CardFragment
 //        cardFragment = CardFragment.create("Test", "TestContent", R.drawable.ic_launcher);
-//        getFragmentManager().beginTransaction().replace(R.id.box_inset_layout, cardFragment).commit();
+//        getFragmentManager().beginTransaction().replace(R.id.activity_box_inset, cardFragment).commit();
 
         getFragmentManager().beginTransaction().replace(R.id.box_inset_layout, new DemoCardFragment()).commit();
     }
@@ -30,7 +30,7 @@ public class CardFragmentActivity extends Activity {
     public static class DemoCardFragment extends CardFragment {
         @Override
         public View onCreateContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            View rootView=inflater.inflate(R.layout.card_fragment_layout,container,false);
+            View rootView=inflater.inflate(R.layout.fragment_card,container,false);
             TextView title=(TextView)rootView.findViewById(R.id.title);
             TextView content=(TextView)rootView.findViewById(R.id.content);
             ImageView icon=(ImageView)rootView.findViewById(R.id.icon);

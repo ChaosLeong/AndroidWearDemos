@@ -13,7 +13,7 @@ public class ConfirmationActivityDemoActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.confirmation_activity_demo_layout);
+        setContentView(R.layout.activity_confirmation_activity_demo);
     }
 
     public void showDismissActivity(View view) {
