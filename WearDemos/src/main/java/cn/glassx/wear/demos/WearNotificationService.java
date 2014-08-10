@@ -4,15 +4,20 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import static com.google.android.gms.wearable.PutDataRequest.WEAR_URI_SCHEME;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.wearable.Asset;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
@@ -21,6 +26,9 @@ import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
+
+import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 import cn.glassx.wear.common.Constants;
 
@@ -74,6 +82,13 @@ public class WearNotificationService extends WearableListenerService implements
                     buildWearableOnlyNotification(title, content, Constants.WATCH_ONLY_ID, false);
                 } else if (Constants.BOTH_PATH.equals(dataEvent.getDataItem().getUri().getPath())) {
                     buildWearableOnlyNotification(title, content, Constants.WATCH_ONLY_ID, true);
+                } else if (Constants.IMAGE_WATCH_ONLY_PATH.equals(dataEvent.getDataItem().getUri().getPath())) {
+                    Asset asset = dataMap.getAsset(Constants.KEY_IMAGE);
+                    Bitmap background = null;
+                    if (asset != null) {
+                        background = loadBitmapFromAsset(asset);
+                    }
+                    buildNotificationWithBackground(title, content, Constants.MSG_WATCH_ONLY_ID, background);
                 }
             } else if (dataEvent.getType() == DataEvent.TYPE_DELETED) {
                 logD("DataItem deleted: " + dataEvent.getDataItem().getUri().getPath());
@@ -100,6 +115,18 @@ public class WearNotificationService extends WearableListenerService implements
         ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).notify(notificationId, builder.build());
     }
 
+    private void buildNotificationWithBackground(String title, String content, int notificationId, Bitmap background) {
+        Notification.WearableExtender wearableExtender = new Notification.WearableExtender().setBackground(background);
+
+        Notification.Builder builder = new Notification.Builder(this)
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle(title)
+                .setContentText(content)
+                .extend(wearableExtender);
+
+        ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).notify(notificationId, builder.build());
+    }
+
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         super.onMessageReceived(messageEvent);
@@ -110,8 +137,26 @@ public class WearNotificationService extends WearableListenerService implements
             DataMap dataMap = DataMap.fromByteArray(messageEvent.getData());
             String title = dataMap.getString(Constants.KEY_TITLE);
             String content = dataMap.getString(Constants.KEY_CONTENT);
-            buildWearableOnlyNotification(title, content, Constants.MSG_WATCH_ONLY_ID, false);
+            buildWearableOnlyNotification(title, content, Constants.WATCH_ONLY_ID, false);
         }
+    }
+
+    private Bitmap loadBitmapFromAsset(Asset asset) {
+        if (asset == null) {
+            throw new IllegalArgumentException("Asset must be non-null");
+        }
+        ConnectionResult result = mGoogleApiClient.blockingConnect(30, TimeUnit.MILLISECONDS);
+        if (!result.isSuccess()) {
+            return null;
+        }
+        //todo 有时会崩溃，原因未查明
+        InputStream assetInputStream = Wearable.DataApi.getFdForAsset(mGoogleApiClient, asset).await().getInputStream();
+        mGoogleApiClient.disconnect();
+        if (assetInputStream == null) {
+            Log.w(TAG, "Requested an unknown Asset.");
+            return null;
+        }
+        return BitmapFactory.decodeStream(assetInputStream);
     }
 
     @Override // ConnectionCallbacks

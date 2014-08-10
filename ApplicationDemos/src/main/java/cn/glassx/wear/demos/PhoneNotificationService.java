@@ -4,6 +4,8 @@ import static com.google.android.gms.wearable.PutDataRequest.WEAR_URI_SCHEME;
 
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -13,6 +15,7 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.wearable.Asset;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
@@ -25,6 +28,7 @@ import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Date;
 
 import cn.glassx.wear.common.Constants;
@@ -37,10 +41,11 @@ public class PhoneNotificationService extends WearableListenerService implements
     private static final String TAG = "NotificationService";
     private GoogleApiClient mGoogleApiClient;
 
-    public static final String ACTION_CREATE_LOCAL_ONLY    = "cn.glassx.wear.demos.notification.local";
-    public static final String ACTION_CREATE_WEAR_ONLY     = "cn.glassx.wear.demos.notification.wear";
-    public static final String ACTION_CREATE_BOTH          = "cn.glassx.wear.demos.notification.both";
-    public static final String ACTION_CREATE_MSG_WEAR_ONLY = "cn.glassx.wear.demos.notification.msg.wear";
+    public static final String ACTION_CREATE_LOCAL_ONLY      = "cn.glassx.wear.demos.notification.local";
+    public static final String ACTION_CREATE_WEAR_ONLY       = "cn.glassx.wear.demos.notification.wear";
+    public static final String ACTION_CREATE_BOTH            = "cn.glassx.wear.demos.notification.both";
+    public static final String ACTION_CREATE_MSG_WEAR_ONLY   = "cn.glassx.wear.demos.notification.msg.wear";
+    public static final String ACTION_CREATE_ASSET_WEAR_ONLY = "cn.glassx.wear.demos.notification.asset.wear";
 
     private static final int TYPE_DATA = 0;
     private static final int TYPE_MSG  = 1;
@@ -57,6 +62,12 @@ public class PhoneNotificationService extends WearableListenerService implements
     }
 
     @Override
+    public void onDestroy() {
+        mGoogleApiClient.disconnect();
+        super.onDestroy();
+    }
+
+    @Override
     public void onDataChanged(DataEventBuffer dataEvents) {
         for (DataEvent dataEvent : dataEvents) {
             if (dataEvent.getType() == DataEvent.TYPE_DELETED) {
@@ -69,9 +80,9 @@ public class PhoneNotificationService extends WearableListenerService implements
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (!mGoogleApiClient.isConnected() && !mGoogleApiClient.isConnecting()) {
-            mGoogleApiClient.connect();
-        }
+//        if (!mGoogleApiClient.isConnected() && !mGoogleApiClient.isConnecting()) {
+//            mGoogleApiClient.connect();
+//        }
         if (null != intent) {
             String action = intent.getAction();
             if (Constants.ACTION_DISMISS.equals(action)) {
@@ -82,11 +93,15 @@ public class PhoneNotificationService extends WearableListenerService implements
             } else if (ACTION_CREATE_LOCAL_ONLY.equals(action)) {
                 buildLocalOnlyNotification(getString(R.string.phone_only), now(), Constants.PHONE_ONLY_ID, false);
             } else if (ACTION_CREATE_WEAR_ONLY.equals(action)) {
-                buildWearableOnlyNotification(getString(R.string.wear_only), now(), Constants.WATCH_ONLY_PATH);
+                buildWearableOnlyNotification(getString(R.string.wear_only), now(), Constants.WATCH_ONLY_PATH, null);
             } else if (ACTION_CREATE_BOTH.equals(action)) {
                 buildMirroredNotifications(getString(R.string.phone_both), getString(R.string.watch_both), now());
             } else if (ACTION_CREATE_MSG_WEAR_ONLY.equals(action)) {
                 sendMsgToWear();
+            } else if (ACTION_CREATE_ASSET_WEAR_ONLY.equals(action)) {
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_content_picture);
+                Asset asset = createAssetFromBitmap(bitmap);
+                buildWearableOnlyNotification(getString(R.string.asset_wear_only), now(), Constants.IMAGE_WATCH_ONLY_PATH, asset);
             }
         }
         return super.onStartCommand(intent, flags, startId);
@@ -117,7 +132,7 @@ public class PhoneNotificationService extends WearableListenerService implements
         if (!deleteDataItemsResult.getStatus().isSuccess()) {
             logE("dismissWearableNotification(): failed to delete DataItem");
         }
-        mGoogleApiClient.disconnect();
+//        mGoogleApiClient.disconnect();
     }
 
     /**
@@ -142,11 +157,12 @@ public class PhoneNotificationService extends WearableListenerService implements
     /**
      * 创建Android Wear的notification
      */
-    private void buildWearableOnlyNotification(String title, String content, String path) {
+    private void buildWearableOnlyNotification(String title, String content, String path, Asset asset) {
         if (mGoogleApiClient.isConnected()) {
             PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(path);
             putDataMapRequest.getDataMap().putString(Constants.KEY_CONTENT, content);
             putDataMapRequest.getDataMap().putString(Constants.KEY_TITLE, title);
+            putDataMapRequest.getDataMap().putAsset(Constants.KEY_IMAGE, asset);
             PutDataRequest request = putDataMapRequest.asPutDataRequest();
             Wearable.DataApi.putDataItem(mGoogleApiClient, request)
                     .setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
@@ -166,10 +182,10 @@ public class PhoneNotificationService extends WearableListenerService implements
      * 创建手机以及Android Wear的notification
      */
     private void buildMirroredNotifications(String phoneTitle, String watchTitle, String content) {
-        if (mGoogleApiClient.isConnected()) {
-            buildWearableOnlyNotification(watchTitle, content, Constants.BOTH_PATH);
-            buildLocalOnlyNotification(phoneTitle, content, Constants.BOTH_ID, true);
-        }
+//        if (mGoogleApiClient.isConnected()) {
+        buildWearableOnlyNotification(watchTitle, content, Constants.BOTH_PATH, null);
+        buildLocalOnlyNotification(phoneTitle, content, Constants.BOTH_ID, true);
+//        }
     }
 
     private void sendMsgToWear() {
@@ -188,6 +204,12 @@ public class PhoneNotificationService extends WearableListenerService implements
 
     private String now() {
         return android.text.format.DateFormat.format("hh:mm:ss", new Date()).toString();
+    }
+
+    private Asset createAssetFromBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteStream);
+        return Asset.createFromBytes(byteStream.toByteArray());
     }
 
     private void logD(String msg) {

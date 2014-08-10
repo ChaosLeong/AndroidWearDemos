@@ -11,10 +11,21 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    // 同步安装所需
+    signingConfigs {
+        release {
+            keyAlias 'glassx'
+            keyPassword '123456'
+            storeFile file('$rootDir/../../release.keystore')
+            storePassword '123456'
+        }
+    }
     buildTypes {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // 同步安装所需
+            signingConfig signingConfigs.release
         }
     }
 }
@@ -25,4 +36,6 @@ dependencies {
     compile 'com.google.android.gms:play-services:5.0.+@aar'
     compile 'com.android.support:support-v4:20.0.+'
     compile project(':Common')
+    // 同步安装所需
+    wearApp project(':WearDemos')
 }
