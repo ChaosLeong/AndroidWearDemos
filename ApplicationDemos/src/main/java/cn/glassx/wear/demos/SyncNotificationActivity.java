@@ -28,6 +28,9 @@ public class SyncNotificationActivity extends Activity {
             case R.id.different_notifications:
                 action = PhoneNotificationService.ACTION_CREATE_BOTH;
                 break;
+            case R.id.msg_wear_only:
+                action = PhoneNotificationService.ACTION_CREATE_MSG_WEAR_ONLY;
+                break;
         }
         startNotificationService(action);
     }

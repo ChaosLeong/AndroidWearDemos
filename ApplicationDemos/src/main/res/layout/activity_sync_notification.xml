@@ -26,4 +26,11 @@
         android:text="@string/different_notifications"
         android:id="@+id/different_notifications"
         android:onClick="onClick" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/msg_wear_only"
+        android:id="@+id/msg_wear_only"
+        android:onClick="onClick" />
 </LinearLayout>

@@ -71,9 +71,9 @@ public class WearNotificationService extends WearableListenerService implements
                 String content = dataMap.getString(Constants.KEY_CONTENT);
                 String title = dataMap.getString(Constants.KEY_TITLE);
                 if (Constants.WATCH_ONLY_PATH.equals(dataEvent.getDataItem().getUri().getPath())) {
-                    buildWearableOnlyNotification(title, content, false);
+                    buildWearableOnlyNotification(title, content, Constants.WATCH_ONLY_ID, false);
                 } else if (Constants.BOTH_PATH.equals(dataEvent.getDataItem().getUri().getPath())) {
-                    buildWearableOnlyNotification(title, content, true);
+                    buildWearableOnlyNotification(title, content, Constants.WATCH_ONLY_ID, true);
                 }
             } else if (dataEvent.getType() == DataEvent.TYPE_DELETED) {
                 logD("DataItem deleted: " + dataEvent.getDataItem().getUri().getPath());
@@ -84,7 +84,7 @@ public class WearNotificationService extends WearableListenerService implements
         }
     }
 
-    private void buildWearableOnlyNotification(String title, String content, boolean withDismissal) {
+    private void buildWearableOnlyNotification(String title, String content, int notificationId, boolean withDismissal) {
         Notification.Builder builder = new Notification.Builder(this)
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setContentTitle(title)
@@ -97,13 +97,21 @@ public class WearNotificationService extends WearableListenerService implements
             builder.setDeleteIntent(pendingIntent);
         }
 
-        ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).notify(Constants.WATCH_ONLY_ID, builder.build());
+        ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).notify(notificationId, builder.build());
     }
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         super.onMessageReceived(messageEvent);
         logD("onMessageReceived");
+        String path = messageEvent.getPath();
+        if (Constants.MSG_WATCH_ONLY_PATH.equals(path)) {
+            ((NotificationManager) getSystemService(NOTIFICATION_SERVICE)).cancel(Constants.MSG_WATCH_ONLY_ID);
+            DataMap dataMap = DataMap.fromByteArray(messageEvent.getData());
+            String title = dataMap.getString(Constants.KEY_TITLE);
+            String content = dataMap.getString(Constants.KEY_CONTENT);
+            buildWearableOnlyNotification(title, content, Constants.MSG_WATCH_ONLY_ID, false);
+        }
     }
 
     @Override // ConnectionCallbacks

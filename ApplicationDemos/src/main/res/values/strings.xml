@@ -5,4 +5,5 @@
     <string name="different_notifications">Different Notifications</string>
     <string name="phone_both">Phone Notification</string>
     <string name="watch_both">Watch Notification</string>
+    <string name="msg_wear_only">Watch Only Notification From Message</string>
 </resources>

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Common</string>
+    <string name="msg_title">Title From Message</string>
+    <string name="msg_content">Content From Message</string>
 </resources>

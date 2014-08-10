@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2014 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package cn.glassx.wear.demos;
 
 import static com.google.android.gms.wearable.PutDataRequest.WEAR_URI_SCHEME;
@@ -32,30 +16,34 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
+import com.google.android.gms.wearable.DataMap;
+import com.google.android.gms.wearable.MessageEvent;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 
-import java.text.DateFormat;
 import java.util.Date;
 
 import cn.glassx.wear.common.Constants;
 
-/**
- * A {@link com.google.android.gms.wearable.WearableListenerService} that is invoked when certain
- * notifications are dismissed from either the phone or watch.
- */
-public class PhoneNotificationService extends WearableListenerService
-        implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+public class PhoneNotificationService extends WearableListenerService implements
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener,
         ResultCallback<DataApi.DeleteDataItemsResult> {
 
     private static final String TAG = "NotificationService";
     private GoogleApiClient mGoogleApiClient;
 
-    public static final String ACTION_CREATE_LOCAL_ONLY = "cn.glassx.wear.demos.notification.local";
-    public static final String ACTION_CREATE_WEAR_ONLY  = "cn.glassx.wear.demos.notification.wear";
-    public static final String ACTION_CREATE_BOTH       = "cn.glassx.wear.demos.notification.both";
+    public static final String ACTION_CREATE_LOCAL_ONLY    = "cn.glassx.wear.demos.notification.local";
+    public static final String ACTION_CREATE_WEAR_ONLY     = "cn.glassx.wear.demos.notification.wear";
+    public static final String ACTION_CREATE_BOTH          = "cn.glassx.wear.demos.notification.both";
+    public static final String ACTION_CREATE_MSG_WEAR_ONLY = "cn.glassx.wear.demos.notification.msg.wear";
+
+    private static final int TYPE_DATA = 0;
+    private static final int TYPE_MSG  = 1;
 
     @Override
     public void onCreate() {
@@ -81,7 +69,7 @@ public class PhoneNotificationService extends WearableListenerService
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (!mGoogleApiClient.isConnected()&&!mGoogleApiClient.isConnecting()){
+        if (!mGoogleApiClient.isConnected() && !mGoogleApiClient.isConnecting()) {
             mGoogleApiClient.connect();
         }
         if (null != intent) {
@@ -97,6 +85,8 @@ public class PhoneNotificationService extends WearableListenerService
                 buildWearableOnlyNotification(getString(R.string.wear_only), now(), Constants.WATCH_ONLY_PATH);
             } else if (ACTION_CREATE_BOTH.equals(action)) {
                 buildMirroredNotifications(getString(R.string.phone_both), getString(R.string.watch_both), now());
+            } else if (ACTION_CREATE_MSG_WEAR_ONLY.equals(action)) {
+                sendMsgToWear();
             }
         }
         return super.onStartCommand(intent, flags, startId);
@@ -127,9 +117,12 @@ public class PhoneNotificationService extends WearableListenerService
         if (!deleteDataItemsResult.getStatus().isSuccess()) {
             logE("dismissWearableNotification(): failed to delete DataItem");
         }
-//        mGoogleApiClient.disconnect();
+        mGoogleApiClient.disconnect();
     }
 
+    /**
+     * 创建手机的notification
+     */
     private void buildLocalOnlyNotification(String title, String content, int notificationId, boolean withDismissal) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setContentTitle(title)
@@ -146,6 +139,9 @@ public class PhoneNotificationService extends WearableListenerService
         NotificationManagerCompat.from(this).notify(notificationId, builder.build());
     }
 
+    /**
+     * 创建Android Wear的notification
+     */
     private void buildWearableOnlyNotification(String title, String content, String path) {
         if (mGoogleApiClient.isConnected()) {
             PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(path);
@@ -166,18 +162,32 @@ public class PhoneNotificationService extends WearableListenerService
         }
     }
 
+    /**
+     * 创建手机以及Android Wear的notification
+     */
     private void buildMirroredNotifications(String phoneTitle, String watchTitle, String content) {
         if (mGoogleApiClient.isConnected()) {
-            // Wearable notification
             buildWearableOnlyNotification(watchTitle, content, Constants.BOTH_PATH);
-
-            // Local notification, with a pending intent for dismissal
             buildLocalOnlyNotification(phoneTitle, content, Constants.BOTH_ID, true);
         }
     }
 
+    private void sendMsgToWear() {
+        Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
+            @Override
+            public void onResult(NodeApi.GetConnectedNodesResult getConnectedNodesResult) {
+                DataMap dataMap = new DataMap();
+                dataMap.putString(Constants.KEY_TITLE, getString(R.string.msg_title));
+                dataMap.putString(Constants.KEY_CONTENT, now() + " " + getString(R.string.msg_content));
+                for (Node node : getConnectedNodesResult.getNodes()) {
+                    Wearable.MessageApi.sendMessage(mGoogleApiClient, node.getId(), Constants.MSG_WATCH_ONLY_PATH, dataMap.toByteArray());
+                }
+            }
+        });
+    }
+
     private String now() {
-        return android.text.format.DateFormat.format("hh:mm:ss",new Date()).toString();
+        return android.text.format.DateFormat.format("hh:mm:ss", new Date()).toString();
     }
 
     private void logD(String msg) {
