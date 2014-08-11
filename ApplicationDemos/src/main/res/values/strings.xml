@@ -7,5 +7,6 @@
     <string name="watch_both">Watch Notification</string>
     <string name="msg_wear_only">Watch Only Notification From Message</string>
     <string name="asset_wear_only">Watch Notification With Background</string>
-    <string name="auto_push_wearable_app">如果您安装的是release版的apk(在build/outputs里面)，你会发觉Android Wear上也同步安装了Wear版的app（可能需要一点时间你才能看到），该功能实现请看gradle脚本</string>
+    <string name="auto_push_wearable_app">如果您安装的是release版的apk(在build/outputs里面)，你会发觉Android Wear
+        上也同步安装了Wear版的app（可能需要一点时间你才能看到），该功能实现请看gradle脚本</string>
 </resources>

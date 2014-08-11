@@ -99,7 +99,7 @@ public class PhoneNotificationService extends WearableListenerService implements
             } else if (ACTION_CREATE_MSG_WEAR_ONLY.equals(action)) {
                 sendMsgToWear();
             } else if (ACTION_CREATE_ASSET_WEAR_ONLY.equals(action)) {
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_content_picture);
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
                 Asset asset = createAssetFromBitmap(bitmap);
                 buildWearableOnlyNotification(getString(R.string.asset_wear_only), now(), Constants.IMAGE_WATCH_ONLY_PATH, asset);
             }

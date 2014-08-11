@@ -145,11 +145,13 @@ public class WearNotificationService extends WearableListenerService implements
         if (asset == null) {
             throw new IllegalArgumentException("Asset must be non-null");
         }
-        ConnectionResult result = mGoogleApiClient.blockingConnect(30, TimeUnit.MILLISECONDS);
-        if (!result.isSuccess()) {
-            return null;
+        if (!mGoogleApiClient.isConnected()) {
+            ConnectionResult result = mGoogleApiClient.blockingConnect(30, TimeUnit.MILLISECONDS);
+            if (!result.isSuccess()) {
+                return null;
+            }
         }
-        //todo 有时会崩溃，原因未查明
+        //todo 第一次接收到图片为空问题
         InputStream assetInputStream = Wearable.DataApi.getFdForAsset(mGoogleApiClient, asset).await().getInputStream();
         mGoogleApiClient.disconnect();
         if (assetInputStream == null) {
@@ -183,7 +185,7 @@ public class WearNotificationService extends WearableListenerService implements
         if (!deleteDataItemsResult.getStatus().isSuccess()) {
             Log.e(TAG, "dismissWearableNotification(): failed to delete DataItem");
         }
-        mGoogleApiClient.disconnect();
+//        mGoogleApiClient.disconnect();
     }
 
     private void logD(String msg) {

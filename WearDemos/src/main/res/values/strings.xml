@@ -39,6 +39,5 @@
         method getCurrentColumnForRow().</string>
 
     <string name="dismiss_title">Dismiss</string>
-    <string name="dismiss_text">To exit the application, swipe from left to
-        right.</string>
+    <string name="dismiss_text">To exit the application, swipe from left to right.</string>
 </resources>
