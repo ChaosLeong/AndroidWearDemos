@@ -20,6 +20,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".CircledImageViewActivity"/>
+        <activity android:name=".NotificationActivity"/>
+        <activity android:name=".ReplyActivity"/>
+        <activity android:name=".WatchViewStubActivity"/>
         <activity android:name=".ConfirmationActivityDemoActivity"/>
         <activity android:name=".BoxInsetActivity"/>
         <activity android:name=".CardScrollViewActivity"/>
@@ -39,9 +43,6 @@
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER"/>
             </intent-filter>
         </service>
-
-        <activity android:name=".NotificationActivity"/>
-        <activity android:name=".ReplyActivity"/>
     </application>
 
 </manifest>
