@@ -11,6 +11,18 @@
         android:orientation="vertical">
 
         <Button
+            android:text="Notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="startNotificationActivity"/>
+
+        <Button
+            android:text="WatchViewStub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="startWatchViewStubActivity"/>
+
+        <Button
             android:text="BoxInset"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

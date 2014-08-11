@@ -55,6 +55,14 @@ public class MainActivity extends Activity {
         startActivity(CardFragmentActivity.class);
     }
 
+    public void startNotificationActivity(View v){
+        startActivity(NotificationActivity.class);
+    }
+
+    public void startWatchViewStubActivity(View v){
+        startActivity(WatchViewStubActivity.class);
+    }
+
     private void startActivity(Class<?> c) {
         Intent intent = new Intent(this, c);
         startActivity(intent);

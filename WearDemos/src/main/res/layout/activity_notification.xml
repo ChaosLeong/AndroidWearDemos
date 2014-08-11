@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <Button
+        android:text="createReplyNotification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="createReplyNotification"/>
+
+    <!--<Button-->
+        <!--android:text="createReplyNotificationByV4"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:onClick="createReplyNotificationByV4"/>-->
+
+    <Button
+        android:text="createPagesNotification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="createPagesNotification"/>
+
+    <Button
+        android:text="createGroupNotification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="createGroupNotification"/>
+</LinearLayout>

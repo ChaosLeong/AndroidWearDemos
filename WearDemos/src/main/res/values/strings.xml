@@ -40,4 +40,23 @@
 
     <string name="dismiss_title">Dismiss</string>
     <string name="dismiss_text">To exit the application, swipe from left to right.</string>
+
+    <string name="reply_label">Reply</string>
+    <string name="reply_title">Reply Title</string>
+    <string name="reply_msg_receiver">Reply信息接收：</string>
+    <string name="reply_notification_title">Reply Notification</string>
+    <string name="reply_notification_content">Reply Notification Content</string>
+    <string-array name="reply_choices">
+        <item>Yes</item>
+        <item>No</item>
+        <item>Maybe</item>
+    </string-array>
+
+    <string name="round_string">这是圆形屏幕</string>
+    <string name="rect_string">这是矩形屏幕</string>
+
+    <string name="big_title">BigStyle Title</string>
+
+    <string name="notification_title">Notification Title</string>
+    <string name="notification_content">Notification Content</string>
 </resources>
