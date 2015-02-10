@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.wearable.view.GridPagerAdapter;
 import android.support.wearable.view.GridViewPager;
-import android.support.wearable.view.ImageReference;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -68,11 +67,6 @@ public class GridViewPagerActivity extends Activity {
     };
 
     private class DemoGridPagerAdapter extends GridPagerAdapter {
-
-        @Override
-        public ImageReference getBackground(int row, int column) {
-            return ImageReference.forDrawable(BG_IMAGES[row % BG_IMAGES.length]);
-        }
 
         @Override
         public int getRowCount() {
