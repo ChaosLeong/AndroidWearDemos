@@ -1,6 +1,6 @@
 Android Wear Demos
 ==========
-该项目为Android Wear的Demos，使用Gradle构建(推荐使用Android Studio，目前最新版为beta 0.8)  
+该项目为Android Wear的Demos，使用Gradle构建
 [API文档](https://developer.android.com/shareables/training/wearable-support-docs.zip).
 
 ## 遗留问题
@@ -19,16 +19,6 @@ Android Wear Demos
         -activity的布局文件为:activity_*.xml
         -fragment的布局文件为:fragment_*.xml
         -adapter的布局文件为:item_*.xml
-    -类命名：
-        -继承哪个类，即用该类名作为后缀
-        -例：private class DemoGridPagerAdapter extends GridPagerAdapter {something.....}中DemoGridPagerAdapter以GridPagerAdapter作为后缀命名
-
-## 依赖
-    - Oracle JDK 8
-    - Android SDK，包括：
-        -Android 4.4W (API 20) SDK Platform
-        -Android 4.4.2 （API 19）SDK Platform
-        -Android SDK Build-tools 20.0.0
 
 ## 项目架构
     ————WearDemos
